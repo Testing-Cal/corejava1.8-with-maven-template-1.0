@@ -225,9 +225,9 @@ jobs:
 #
 #         sed -i s+#SERVICE_NAME#+"$service"+g ./helm_chart/values.yaml ./helm_chart/Chart.yaml
 #         kubectl create ns "$namespace_name" || true
-#         helm upgrade --install "${generalPresent.repoName}" -n "$namespace_name" helm_chart --atomic --timeout 300s --set image.repository="$REGISTRY_URL" --set image.tag="$BUILD_TAG" --set image.registrySecret="regcred"  --set service.internalport="$SERVICE_PORT" -f Helm.yaml
+#         helm upgrade --install "${metadataVars.repoName}" -n "$namespace_name" helm_chart --atomic --timeout 300s --set image.repository="$REGISTRY_URL" --set image.tag="$BUILD_TAG" --set image.registrySecret="regcred"  --set service.internalport="$SERVICE_PORT" -f Helm.yaml
 #         sleep 10
-#         kubectl rollout restart deploy "${generalPresent.repoName}-$service" -n "$namespace_name"
+#         kubectl rollout restart deploy "${metadataVars.repoName}-$service" -n "$namespace_name"
 # The below is for live URL
 #          env.temp_service_name = "$RELEASE_NAME-$service".take(63)
 #          def url = sh (returnStdout: true, script: '''kubectl get svc -n "$namespace_name" | grep "$temp_service_name" | awk '{print $4}' ''').trim()
