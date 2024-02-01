@@ -21,7 +21,7 @@ updateStrategy:
 
 ingress:
   enabled: false
-  className: nginx
+  ingressClass: nginx
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
   paths:
@@ -33,7 +33,7 @@ serviceAccountName: default
 mountServiceAccountToken: false
 
 securityContext:
-  runAsUser: 1000
+  runAsUser: 0
   runAsNonRoot: false
   readOnlyRootFilesystem: false
   allowPrivilegeEscalation: false
@@ -150,12 +150,12 @@ probes:
 #    periodSeconds: 5
 
 volumes:
-  enabled: true
-  data:
-    - name: source
-      emptyDir: {}
-  mounts:
-    enabled: true
-    data:
-      - mountPath: "/src"
-        name: source
+ enabled: true
+ data:
+ - name: source
+   emptyDir: {}
+ mounts:
+   enabled: true
+   data:
+     - mountPath: "/src"
+       name: source
