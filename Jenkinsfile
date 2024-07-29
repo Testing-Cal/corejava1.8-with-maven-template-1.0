@@ -209,7 +209,7 @@ pipeline {
     SONAR_CREDENTIAL_ID = "${env.SONAR_CREDENTIAL_ID}"
     STAGE_FLAG = "${STAGE_FLAG}"
     JENKINS_METADATA = "${JENKINS_METADATA}"
-    JAVA_MVN_IMAGE_VERSION = "maven:3.8.6-jdk-8-slim" //https://hub.docker.com/_/maven/tags
+    JAVA_MVN_IMAGE_VERSION = "amazoncorretto:8-alpine" //https://hub.docker.com/_/maven/tags
     KUBECTL_IMAGE_VERSION = "bitnami/kubectl:1.24.9" //https://hub.docker.com/r/bitnami/kubectl/tags
     HELM_IMAGE_VERSION = "alpine/helm:3.8.1" //https://hub.docker.com/r/alpine/helm/tags   
     OC_IMAGE_VERSION = "quay.io/openshift/origin-cli:4.9.0" //https://quay.io/repository/openshift/origin-cli?tab=tags
@@ -307,7 +307,7 @@ pipeline {
                 if ("${list[i]}" == "'UnitTests'" && env.ACTION == 'DEPLOY') {
                    stage('Unit Tests') {
                       sh """
-                        docker run --rm -v "$WORKSPACE":/usr/src/mymaven -w /usr/src/mymaven $JAVA_MVN_IMAGE_VERSION mvn test --batch-mode
+                        docker run --rm -v "$WORKSPACE":/opt -w /opt $JAVA_MVN_IMAGE_VERSION ./mvnw test --batch-mode
                       """
                    }
                 }
@@ -360,7 +360,7 @@ pipeline {
                    stage('Build') {
                      echo "echoed BUILD_TAG--- $BUILD_TAG"
                      sh """
-                        docker run --rm -v "$WORKSPACE":/usr/src/mymaven -w /usr/src/mymaven $JAVA_MVN_IMAGE_VERSION mvn clean install -Dmaven.test.skip=true
+                        docker run --rm -v "$WORKSPACE":/usr/src/mymaven -w /usr/src/mymaven $JAVA_MVN_IMAGE_VERSION ./mvnw clean install -Dmaven.test.skip=true
                         sudo chown -R `id -u`:`id -g` "$WORKSPACE" 
                      """
                    }
