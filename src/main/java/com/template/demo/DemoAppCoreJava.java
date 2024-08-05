@@ -1,17 +1,6 @@
 package com.template.demo;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.LifecycleException;
-import org.apache.catalina.startup.Tomcat;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.ResourceBundle;
+import com.template.demo.launch.LaunchTomcat;
 
 public class DemoAppCoreJava {
 
@@ -23,50 +12,11 @@ public class DemoAppCoreJava {
     public static void main(final String... args) {
         DemoAppCoreJava hw = new DemoAppCoreJava();
         hw.display(hw.helloWorld());
-
-        ResourceBundle rb = ResourceBundle.getBundle("application");
-
-        String port = System.getenv("port") !=null ? System.getenv("port") : rb.getString("port");
-        final String greetingMessage = rb.getString("server.greetingMessage");
-        String title = rb.getString("server.title");
-        String servletName = rb.getString("server.servletName");
-        String servletContext =  System.getenv("context");
-        
-
-        Tomcat tomcat = new Tomcat();
-        tomcat.setBaseDir("temp");
-        tomcat.setPort(Integer.parseInt(port));
-        tomcat.getConnector();
-        Context ctx = tomcat.addContext("", new File(".").getAbsolutePath());
-
-        Tomcat.addServlet(ctx, servletName, new HttpServlet() {
-            protected void service(HttpServletRequest req, HttpServletResponse resp)
-                    throws ServletException, IOException {
-                Writer w = resp.getWriter();
-                w.write("<html>");
-                w.write("<head>");
-                w.write("<title>"+ title +"</title>");
-                w.write("</head>");
-                w.write("</html>");
-                w.write(greetingMessage);
-                w.flush();
-            }
-        });
-        
-        if(servletContext != null && !servletContext.isEmpty()){
-             ctx.addServletMappingDecoded(servletContext+"/*",servletName);
-         }else {
-            ctx.addServletMappingDecoded("/*",servletName);
-        }
-        
-
-        try {
-            tomcat.start();
-        } catch (LifecycleException e) {
-            System.out.println("Exception occur:" + e.getMessage());
-        }
-        tomcat.getServer().await();
-
+        /**
+         * LaunchTomcat is for testing purpose only, remove it and start coding.
+         */
+        LaunchTomcat launchTomcat = new LaunchTomcat();
+        launchTomcat.startingTomcatToDisplayGreetings();
     }
 
     /**
