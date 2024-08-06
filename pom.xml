@@ -46,7 +46,7 @@
         <sonar.jacoco.reportPath>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.surefire.reportsPath>${project.basedir}/target/surefire-reports</sonar.surefire.reportsPath>
         <sonar.language>java</sonar.language>
-<!--        <sonar.coverage.exclusions>**/DemoAppCoreJava.java</sonar.coverage.exclusions>-->
+        <sonar.coverage.exclusions>**/DemoAppCoreJava.java</sonar.coverage.exclusions>
         <!-- The main class to start by executing "java -jar" -->
         <start-class>com.template.demo.DemoAppCoreJava</start-class>
         <minLineCoverage>0.0</minLineCoverage>
