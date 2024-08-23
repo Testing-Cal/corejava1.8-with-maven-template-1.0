@@ -501,7 +501,8 @@ pipeline {
                                                   checkout([$class: 'GitSCM', branches: [[name: "${helmVars.helmRepoBranch}"]], userRemoteConfigs: [[url: "${helmVars.helmRepoUrl}", credentialsId: scm.userRemoteConfigs[0].credentialsId]]])
                                                   sh '''
                                                   ### Command for running External helm Chart
-                                                   docker run --rm  --user root -v "$KUBECONFIG":"$KUBECONFIG" -e KUBECONFIG="$KUBECONFIG" -v "$WORKSPACE":/apps -w /apps/externalChart $HELM_IMAGE_VERSION upgrade --install "${metadataVars.helmReleaseName}" -n "$namespace_name" "${helmVars.workingDirectory}" --atomic --timeout 300s --set image.repository="$REGISTRY_URL" --set image.tag="$BUILD_TAG" --set image.registrySecret="$kube_secret_name_for_registry"  --set service.internalport="$SERVICE_PORT" --set context="$CONTEXT" -f "${helmVars.values}" -f ../vault.yaml
+                                                   docker run --rm  --user root -v "$KUBECONFIG":"$KUBECONFIG" -e KUBECONFIG="$KUBECONFIG" -v "$WORKSPACE":/apps -w /apps/externalChart $HELM_IMAGE_VERSION upgrade --install "$helmReleaseName" -n "$namespace_name" "$temp_workingDirectory" --atomic --timeout 300s --set image.repository="$REGISTRY_URL" --set image.tag="$BUILD_TAG" --set image.registrySecret="$kube_secret_name_for_registry"  --set service.internalport="$SERVICE_PORT" --set context="$CONTEXT" -f "$helmvalues" -f ../vault.yaml
+
                                                    '''
 
                                               }
